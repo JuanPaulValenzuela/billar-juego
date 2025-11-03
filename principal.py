@@ -14,6 +14,7 @@ pygame.display.set_caption("Pool")
 #pymunk space
 space = pymunk.Space()
 #space.gravity = (0, 5000) #Unitless, it can be applied horizontally and vertically. In this case this is not necessary
+static_body = space.static_body #Espacio para poder "atach" las bolas de billar a un espacio que de fricción
 draw_options = pymunk.pygame_util.DrawOptions(screen)
 
 #clock
@@ -24,14 +25,23 @@ FPS=120
 #colours
 BG = (50, 50 50)
 
+#load images
+table_image = pygame.image.load()  #Cargar imagen de la tabla de pool
+
+
 #function for creating balls
 def create_ball(radius, pos):
   body = pymunk.Body()
   body.position = pos
   shape = pymunk.Circle(body, radius)
   shape.mass = 5 #Unitless value
-
-  space.add(body, shape)
+  #use pivot joint to add friction #"Buscar para qué sirve PivotJoint" 
+  pivot = pymunk.PivotJoint(static_body, body, (0,0), (0,0)) #Las dos tuplas son las coordenadas donde el joint va a ser hecho
+  pivot.max_bias = 0 #disable joint correction
+  pivot.max_force = 1000 #Valor de la fricción. "Emulate linear friction" 
+ 
+  
+  space.add(body, shape, pivot )
   return shape
 
 new_ball = create_ball(25, (300,300))
@@ -51,7 +61,7 @@ while run:
   #Event handeler
   for event in pygame.event.get():
     if event.type == pygame.MOUSEBUTTONDOWN:
-      cue_ball.body.apply_impulse_at_local_point(())
+      cue_ball.body.apply_impulse_at_local_point(()) #Aplica impulso en modo de coordenadas x-y.
     if event.type == pygame.QUIT:
       run = False
 

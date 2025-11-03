@@ -26,7 +26,7 @@ FPS=120
 BG = (50, 50 50)
 
 #load images
-table_image = pygame.image.load()  #Cargar imagen de la tabla de pool
+table_image = pygame.image.load("assets/img/table.png")#Cargar imagen de la tabla de pool
 
 
 #function for creating balls

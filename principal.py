@@ -19,19 +19,19 @@ draw_options = pymunk.pygame_util.DrawOptions(screen)
 
 #clock
 
-clos = pygame.time.Clock()
+clock = pygame.time.Clock()
 FPS=120
 
 #colours
-BG = (50, 50 50)
+BG = (50, 50, 50)
 
 #load images
-table_image = pygame.image.load("assets/img/table.png")#Cargar imagen de la tabla de pool
+table_image = pygame.image.load("assets/img/table.png").convert_alpha()#Cargar imagen de la tabla de pool
 
 
 #function for creating balls
 def create_ball(radius, pos):
-  body = pymunk.Body()
+  body = pymunk.Body() #no ponemos nada en los parentesis para que la bola se mueva
   body.position = pos
   shape = pymunk.Circle(body, radius)
   shape.mass = 5 #Unitless value
@@ -48,6 +48,28 @@ new_ball = create_ball(25, (300,300))
 
 cue_ball = create_ball(23, (600, 300))
 
+#create pool table cushions "Para que la bola colisione con la mesa"
+cushions = [
+  [(88, 56), (109, 77), (555, 77), (564, 56)]],
+  [(621, 56), (630, 77), (1081, 77), (1102, 56)],
+  [(89, 621), (110, 600),(556, 600), (564, 621)],
+  [(622, 621), (630, 600), (1081, 600), (1102, 621)],
+  [(56, 96), (77, 117), (77, 560), (56, 581)],
+  [(1143, 96), (1122, 117), (1122, 560), (1143, 581)]
+]
+
+#Function for creating cushions
+def create_cushion(poly_dims):
+  body = pymunk.Body(body_type = pymunk.Body.STATICS) #objeto estático
+  body.position= ((0,0))
+  shape = pymunk.Poly(body, poly_dims)
+
+  space.add(body, shape)
+for c in cushions:
+  create_cushion(c)
+  
+
+
 #game loop
 run = True
 while run:
@@ -57,6 +79,10 @@ while run:
 
   #fill backfround
   screen.fill(BG)
+  #Draw pool table
+  screen.blit(table_image,(0,0))
+  
+
   
   #Event handeler
   for event in pygame.event.get():

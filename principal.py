@@ -1,4 +1,4 @@
-#"Hola, simplemente fui a ver y estuve copiando el código, pueden continuar el video en el minuto 15:54"
+#pueden continuar el video en el minuto 19:54"
 import pygame
 import pymunk #"It is useful to create pymunk space. How objects behave are described by this module"
 import pymunk.pygame_util #"Use both features" "Draw pymunk objects on the screen"
@@ -13,6 +13,7 @@ pygame.display.set_caption("Pool")
 
 #pymunk space
 space = pymunk.Space()
+static_body = space.static_body
 #space.gravity = (0, 5000) #Unitless, it can be applied horizontally and vertically. In this case this is not necessary
 static_body = space.static_body #Espacio para poder "atach" las bolas de billar a un espacio que de fricción
 draw_options = pymunk.pygame_util.DrawOptions(screen)
@@ -95,3 +96,4 @@ while run:
   pygame.display.update() #We need to update the modifications
       
 pygame.quit()
+

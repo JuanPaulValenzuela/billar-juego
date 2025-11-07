@@ -63,8 +63,8 @@ cue_ball = create_ball(dia / 2, pos)
 balls.append(cue_ball)
 
 #create pool table cushions "Para que la bola colisione con la mesa"
-cushions = [[
-  [(88, 56), (109, 77), (555, 77), (564, 56)]],
+cushions = [
+  [(88, 56), (109, 77), (555, 77), (564, 56)],
   [(621, 56), (630, 77), (1081, 77), (1102, 56)],
   [(89, 621), (110, 600),(556, 600), (564, 621)],
   [(622, 621), (630, 600), (1081, 600), (1102, 621)],

@@ -1,4 +1,4 @@
-#pueden continuar el video en el minuto 19:54"
+#pueden continuar el video en el minuto 36"
 import pygame
 import pymunk #"It is useful to create pymunk space. How objects behave are described by this module"
 import pymunk.pygame_util #"Use both features" "Draw pymunk objects on the screen"
@@ -19,16 +19,18 @@ static_body = space.static_body #Espacio para poder "atach" las bolas de billar 
 draw_options = pymunk.pygame_util.DrawOptions(screen)
 
 #clock
-
 clock = pygame.time.Clock()
 FPS=120
+
+#game variables
+dia = 36 #Diametro de la bola
 
 #colours
 BG = (50, 50, 50)
 
 #load images
 table_image = pygame.image.load("assets/img/table.png").convert_alpha()#Cargar imagen de la tabla de pool
-
+ball_image = []
 
 #function for creating balls
 def create_ball(radius, pos):
@@ -36,18 +38,29 @@ def create_ball(radius, pos):
   body.position = pos
   shape = pymunk.Circle(body, radius)
   shape.mass = 5 #Unitless value
+  shape.elasticity = 0.8 #Determina la elasticidad de la bola de billar
   #use pivot joint to add friction #"Buscar para qué sirve PivotJoint" 
   pivot = pymunk.PivotJoint(static_body, body, (0,0), (0,0)) #Las dos tuplas son las coordenadas donde el joint va a ser hecho
   pivot.max_bias = 0 #disable joint correction
   pivot.max_force = 1000 #Valor de la fricción. "Emulate linear friction" 
  
-  
   space.add(body, shape, pivot )
   return shape
 
-new_ball = create_ball(25, (300,300))
-
-cue_ball = create_ball(23, (600, 300))
+#Setup game balls
+balls =[]
+rows = 5
+#potting balls #Acomodar las bolas en el triángulo inicial
+for col in range(5):
+  for row in range(rows):
+    pos = (250 + (col * (dia+1)), 267 + (row * (dia+1))+(col * dia / 2))
+    new_ball = create_ball(dia / 2, pos)
+    balls.append(new_bal)
+  rows -=1
+#Cue ball
+pos = (888, SCREEN_HEIGHT /2)
+cue_ball = create_ball(dia / 2, pos)
+balls.append(cue_ball)
 
 #create pool table cushions "Para que la bola colisione con la mesa"
 cushions = [
@@ -64,7 +77,7 @@ def create_cushion(poly_dims):
   body = pymunk.Body(body_type = pymunk.Body.STATICS) #objeto estático
   body.position= ((0,0))
   shape = pymunk.Poly(body, poly_dims)
-
+  shape.elasticity = 0.8 #Hace a los bordes de la mesa elásticos
   space.add(body, shape)
 for c in cushions:
   create_cushion(c)

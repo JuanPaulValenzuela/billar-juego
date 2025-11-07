@@ -74,7 +74,7 @@ cushions = [[
 
 #Function for creating cushions
 def create_cushion(poly_dims):
-  body = pymunk.Body(body_type = pymunk.Body.STATICS) #objeto estático
+  body = pymunk.Body(body_type = pymunk.Body.STATIC) #objeto estático
   body.position= ((0,0))
   shape = pymunk.Poly(body, poly_dims)
   shape.elasticity = 0.8 #Hace a los bordes de la mesa elásticos
